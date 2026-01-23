@@ -1,0 +1,41 @@
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="APP-FILE"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/app.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="HIBERNATE-FILE"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/hibernate.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/hibernate.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="dev.alinnert" level="INFO">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="APP-FILE"/>
+  </logger>
+
+  <logger name="org.hibernate" level="INFO">
+    <appender-ref ref="HIBERNATE-FILE"/>
+  </logger>
+  <logger name="org.hibernate.SQL" level="DEBUG"/>
+
+  <root level="WARN"/>
+</configuration>

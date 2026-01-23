@@ -125,3 +125,5 @@ fabric.properties
 # Project files
 /*.mv.db
 /*.trace.db
+/persistence.properties
+/logs/

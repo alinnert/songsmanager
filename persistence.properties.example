@@ -1,0 +1,13 @@
+# Copy this file to persistence.properties and fill in the required values.
+# The JDBC URL to connect to the database
+# For H2 this is usually jdbc:h2:file:./songs-data
+# For PostgreSQL this is usually jdbc:postgresql://localhost:5432/songsmanager
+jakarta.persistence.jdbc.url=
+# The database user to connect to the database with. For H2 this is usually sa
+jakarta.persistence.jdbc.user=
+# The password for the database user. For H2 this is usually empty.
+jakarta.persistence.jdbc.password=
+# Possible values: org.postgresql.Driver, org.h2.Driver
+jakarta.persistence.jdbc.driver=
+jakarta.persistence.schema-generation.database.action=update
+hibernate.format_sql=true

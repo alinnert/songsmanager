@@ -1,6 +1,7 @@
 package dev.alinnert.songsmanager.services;
 
 import dev.alinnert.songsmanager.entities.Artist;
+import dev.alinnert.songsmanager.persistence.PersistenceService;
 
 public class ArtistService
 {
@@ -20,15 +21,14 @@ public class ArtistService
 	public void removeArtist() {
 		IO.print("Artist ID: ");
 		var id = IO.readln();
-		persistenceService.run(em -> em.remove(
-				em.getReference(Artist.class, Long.parseLong(id))
-		));
+		persistenceService.run(
+			em -> em.remove(em.getReference(Artist.class, Long.parseLong(id))));
 	}
 
 	public void listArtists() {
-		persistenceService.run(
-				em -> em.createQuery("SELECT a FROM Artist a", Artist.class)
-						.getResultList().forEach(IO::println)
-		);
+		persistenceService.run(em -> em
+			.createQuery("SELECT a FROM Artist a", Artist.class)
+			.getResultList()
+			.forEach(IO::println));
 	}
 }

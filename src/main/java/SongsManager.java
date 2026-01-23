@@ -1,5 +1,5 @@
+import dev.alinnert.songsmanager.persistence.PersistenceService;
 import dev.alinnert.songsmanager.services.ArtistService;
-import dev.alinnert.songsmanager.services.PersistenceService;
 
 /**
  *

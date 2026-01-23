@@ -6,17 +6,5 @@
     <class>dev.alinnert.songsmanager.entities.Artist</class>
     <class>dev.alinnert.songsmanager.entities.Song</class>
     <class>dev.alinnert.songsmanager.entities.Playlist</class>
-    <properties>
-      <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
-      <property name="jakarta.persistence.jdbc.url"
-                value="jdbc:h2:file:./songs-data"/>
-      <property name="jakarta.persistence.jdbc.user" value="sa"/>
-      <property name="jakarta.persistence.jdbc.password" value=""/>
-      <property name="jakarta.persistence.schema-generation.database.action"
-                value="update"/>
-
-      <property name="hibernate.show_sql" value="false"/>
-      <property name="hibernate.format_sql" value="true"/>
-    </properties>
   </persistence-unit>
 </persistence>
