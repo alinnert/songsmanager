@@ -39,7 +39,6 @@ public class Playlist implements Serializable
 	@Override
 	public String toString() {
 		var songPluralized = songs.size() == 1 ? "song" : "songs";
-
 		return "[%d] %s (containing %d %s)".formatted(
 			id, name, songs.size(),
 			songPluralized

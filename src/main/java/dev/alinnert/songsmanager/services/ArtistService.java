@@ -15,20 +15,19 @@ public class ArtistService
 		IO.print("Artist name: ");
 		var name = IO.readln();
 		var artist = new Artist(name);
-		persistenceService.run(em -> em.persist(artist));
+		persistenceService.runWithTransaction(em -> em.persist(artist));
 	}
 
 	public void removeArtist() {
 		IO.print("Artist ID: ");
 		var id = IO.readln();
-		persistenceService.run(
+		persistenceService.runWithTransaction(
 			em -> em.remove(em.getReference(Artist.class, Long.parseLong(id))));
 	}
 
 	public void listArtists() {
-		persistenceService.run(em -> em
+		persistenceService.getEntityManager()
 			.createQuery("SELECT a FROM Artist a", Artist.class)
-			.getResultList()
-			.forEach(IO::println));
+			.getResultList().forEach(IO::println);
 	}
 }

@@ -35,5 +35,7 @@ public class Artist implements Serializable
 	public void setSongs(List<Song> songs) { this.songs = songs; }
 
 	@Override
-	public String toString() { return "[%d] %s".formatted(id, name); }
+	public String toString() {
+		return "[%d] %s".formatted(id, name);
+	}
 }

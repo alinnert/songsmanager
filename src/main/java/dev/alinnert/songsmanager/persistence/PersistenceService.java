@@ -14,11 +14,17 @@ import java.util.function.Consumer;
 public final class PersistenceService implements AutoCloseable
 {
 	private static final String FILENAME = "persistence.properties";
-	private final EntityManagerFactory emf;
+	private final EntityManagerFactory entityManagerFactory;
+	private final EntityManager entityManager;
 
 	public PersistenceService() {
-		emf = Persistence.createEntityManagerFactory(
+		entityManagerFactory = Persistence.createEntityManagerFactory(
 			"songsmanager-persistence", loadProperties());
+		entityManager = entityManagerFactory.createEntityManager();
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
 	private Properties loadProperties() {
@@ -40,13 +46,12 @@ public final class PersistenceService implements AutoCloseable
 		return properties;
 	}
 
-	public void run(Consumer<EntityManager> consumer) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
+	public void runWithTransaction(Consumer<EntityManager> consumer) {
+		EntityTransaction tx = entityManager.getTransaction();
 
 		try {
 			tx.begin();
-			consumer.accept(em);
+			consumer.accept(entityManager);
 			tx.commit();
 		} catch (RuntimeException | Error e) {
 			if (tx.isActive()) {
@@ -54,12 +59,12 @@ public final class PersistenceService implements AutoCloseable
 			}
 			throw e;
 		} finally {
-			em.close();
+			entityManager.close();
 		}
 	}
 
 	@Override
 	public void close() {
-		emf.close();
+		entityManagerFactory.close();
 	}
 }

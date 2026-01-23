@@ -2,6 +2,7 @@ package dev.alinnert.songsmanager;
 
 import dev.alinnert.songsmanager.persistence.PersistenceService;
 import dev.alinnert.songsmanager.services.ArtistService;
+import dev.alinnert.songsmanager.services.SongService;
 
 public class SongsManager
 {
@@ -44,6 +45,9 @@ public class SongsManager
 				case "add a" -> new ArtistService(ps).addArtist();
 				case "rm a" -> new ArtistService(ps).removeArtist();
 				case "ls a" -> new ArtistService(ps).listArtists();
+				case "add s" -> new SongService(ps).addSong();
+				case "rm s" -> new SongService(ps).removeSong();
+				case "ls s" -> new SongService(ps).listSongs();
 				default -> IO.println("Invalid choice!");
 			}
 		} catch (Exception e) {
