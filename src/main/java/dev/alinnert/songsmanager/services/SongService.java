@@ -40,4 +40,8 @@ public class SongService
 			.getResultList()
 			.forEach(IO::println);
 	}
+
+	public void getSong() {
+		IO.println("Not implemented yet!");
+	}
 }

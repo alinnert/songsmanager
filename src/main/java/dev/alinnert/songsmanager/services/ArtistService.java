@@ -30,4 +30,8 @@ public class ArtistService
 			.createQuery("SELECT a FROM Artist a", Artist.class)
 			.getResultList().forEach(IO::println);
 	}
+
+	public void getArtist() {
+		IO.println("Not implemented yet!");
+	}
 }
