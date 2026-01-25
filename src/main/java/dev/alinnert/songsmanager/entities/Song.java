@@ -52,8 +52,7 @@ public class Song implements Serializable
     public String toStringWithPlaylists() {
         var playlists = this.playlists
             .stream()
-            .map(
-                pl -> "- [Playlist #%d] %s".formatted(pl.getId(), pl.getName()))
+            .map(pl -> "- %s".formatted(pl.toString()))
             .toList();
 
         var stringBuilder = new StringBuilder();

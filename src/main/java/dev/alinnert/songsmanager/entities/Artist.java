@@ -35,10 +35,7 @@ public class Artist implements Serializable
     public String toStringWithSongs() {
         var songs = this.songs
             .stream()
-            .map(song -> "- [Song #%d] %s".formatted(
-                song.getId(),
-                song.getName()
-            ))
+            .map(song -> "- %s".formatted(song.toString()))
             .toList();
 
         var stringBuilder = new StringBuilder();
