@@ -54,12 +54,12 @@ public class ArtistService
         IO.println();
 
         try (var em = persistenceService.getEntityManager()) {
-            var artist = em.find(Artist.class, artistId).toStringWithSongs();
+            var artist = em.find(Artist.class, artistId);
             if (artist == null) {
                 IO.println("Artist with ID %d not found.".formatted(artistId));
-                return;
+            } else {
+                IO.println(artist.toStringWithSongs());
             }
-            IO.println(artist);
         }
     }
 }

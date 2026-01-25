@@ -51,17 +51,16 @@ public class PlaylistService
 
     public void getPlaylist() {
         var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
+        IO.println();
 
         try (var em = persistenceService.getEntityManager()) {
-            var playlist = em
-                .find(Playlist.class, playlistId)
-                .toStringWithSongs();
+            var playlist = em.find(Playlist.class, playlistId);
             if (playlist == null) {
                 IO.println(
                     "Playlist with ID %d not found.".formatted(playlistId));
-                return;
+            } else {
+                IO.println(playlist.toStringWithSongs());
             }
-            IO.println(playlist);
         }
     }
 

@@ -54,4 +54,25 @@ public class Song implements Serializable
         return "[Song #%d] %s by [Artist #%d] %s".formatted(
             id, name, artist.getId(), artist.getName());
     }
+
+    public String toStringWithPlaylists() {
+        var playlists = this.playlists
+            .stream()
+            .map(
+                pl -> "- [Playlist #%d] %s".formatted(pl.getId(), pl.getName()))
+            .toList();
+
+        var stringBuilder = new StringBuilder();
+        stringBuilder.append("%s\n".formatted(toString()));
+
+        if (playlists.isEmpty()) {
+            stringBuilder.append("This song is not in any playlist yet.");
+        } else {
+            stringBuilder
+                .append("Playlists this song is in:\n")
+                .append(String.join("\n", playlists));
+        }
+
+        return stringBuilder.toString();
+    }
 }

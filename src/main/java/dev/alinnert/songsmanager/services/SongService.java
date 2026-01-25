@@ -69,9 +69,9 @@ public class SongService
             var song = em.find(Song.class, songId);
             if (song == null) {
                 IO.println("Song with ID %d not found.".formatted(songId));
-                return;
+            } else {
+                IO.println(song.toStringWithPlaylists());
             }
-            IO.println(song);
         }
     }
 }

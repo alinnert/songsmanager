@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 public class Playlist implements Serializable
@@ -59,10 +58,18 @@ public class Playlist implements Serializable
             .map(song -> "- [Song #%d] %s\n".formatted(
                 song.getId(),
                 song.getName()
-            ))
-            .collect(Collectors.joining("\n"));
+            )).toList();
 
-        return "[Playlist #%d] %s\nSongs in this playlist:\n%s".formatted(
-            id, name, songs);
+        var stringBuilder = new StringBuilder();
+        stringBuilder.append("%s\n".formatted(toString()));
+
+        if (songs.isEmpty()) {
+            stringBuilder.append("This playlist has no songs yet.");
+        } else {
+            stringBuilder.append("Songs in this playlist:\n");
+            stringBuilder.append(String.join("", songs));
+        }
+
+        return stringBuilder.toString();
     }
 }
