@@ -9,60 +9,60 @@ import java.util.stream.Collectors;
 @Entity
 public class Playlist implements Serializable
 {
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	private String name;
+    private String name;
 
-	@ManyToMany
-	@JoinTable(
-		name = "playlist_songs",
-		joinColumns = @JoinColumn(name = "playlist_id"),
-		inverseJoinColumns = @JoinColumn(name = "song_id"),
-		uniqueConstraints = @UniqueConstraint(
-			columnNames = { "playlist_id", "song_id" }
-		)
-	)
-	private List<Song> songs;
+    @ManyToMany
+    @JoinTable(
+        name = "playlist_songs",
+        joinColumns = @JoinColumn(name = "playlist_id"),
+        inverseJoinColumns = @JoinColumn(name = "song_id"),
+        uniqueConstraints = @UniqueConstraint(
+            columnNames = { "playlist_id", "song_id" }
+        )
+    )
+    private List<Song> songs;
 
-	public Playlist() {}
+    public Playlist() {}
 
-	public Playlist(String name) {
-		this.name = name;
-	}
+    public Playlist(String name) {
+        this.name = name;
+    }
 
-	public Long getId() { return id; }
+    public Long getId() { return id; }
 
-	public void setId(Long id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
 
-	public String getName() { return name; }
+    public String getName() { return name; }
 
-	public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = name; }
 
-	public List<Song> getSongs() { return songs; }
+    public List<Song> getSongs() { return songs; }
 
-	public void setSongs(List<Song> songs) { this.songs = songs; }
+    public void setSongs(List<Song> songs) { this.songs = songs; }
 
-	@Override
-	public String toString() {
-		var songPluralized = songs.size() == 1 ? "song" : "songs";
-		return "[Playlist #%d] %s (containing %d %s)".formatted(
-			id, name,
-			songs.size(), songPluralized
-		);
-	}
+    @Override
+    public String toString() {
+        var songPluralized = songs.size() == 1 ? "song" : "songs";
+        return "[Playlist #%d] %s (containing %d %s)".formatted(
+            id, name,
+            songs.size(), songPluralized
+        );
+    }
 
-	public String toStringWithSongs() {
-		var songs = this.songs
-			.stream()
-			.map(song -> "- [Song #%d] %s\n".formatted(
-				song.getId(),
-				song.getName()
-			))
-			.collect(Collectors.joining("\n"));
+    public String toStringWithSongs() {
+        var songs = this.songs
+            .stream()
+            .map(song -> "- [Song #%d] %s\n".formatted(
+                song.getId(),
+                song.getName()
+            ))
+            .collect(Collectors.joining("\n"));
 
-		return "[Playlist #%d] %s\nSongs in this playlist:\n%s".formatted(
-			id, name, songs);
-	}
+        return "[Playlist #%d] %s\nSongs in this playlist:\n%s".formatted(
+            id, name, songs);
+    }
 }

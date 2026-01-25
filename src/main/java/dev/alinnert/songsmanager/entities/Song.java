@@ -8,50 +8,50 @@ import java.util.List;
 @Entity
 public class Song implements Serializable
 {
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	private String name;
+    private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "artist_id", nullable = false)
-	private Artist artist;
+    @ManyToOne
+    @JoinColumn(name = "artist_id", nullable = false)
+    private Artist artist;
 
-	@ManyToMany
-	@JoinTable(
-		name = "playlist_songs",
-		joinColumns = @JoinColumn(name = "song_id"),
-		inverseJoinColumns = @JoinColumn(name = "playlist_id")
-	)
-	private List<Playlist> playlists;
+    @ManyToMany
+    @JoinTable(
+        name = "playlist_songs",
+        joinColumns = @JoinColumn(name = "song_id"),
+        inverseJoinColumns = @JoinColumn(name = "playlist_id")
+    )
+    private List<Playlist> playlists;
 
-	public Song() {}
+    public Song() {}
 
-	public Song(String name, Artist artist) {
-		this.name = name;
-		this.artist = artist;
-	}
+    public Song(String name, Artist artist) {
+        this.name = name;
+        this.artist = artist;
+    }
 
-	public Long getId() { return id; }
+    public Long getId() { return id; }
 
-	public void setId(Long id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
 
-	public String getName() { return name; }
+    public String getName() { return name; }
 
-	public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = name; }
 
-	public Artist getArtist() { return artist; }
+    public Artist getArtist() { return artist; }
 
-	public void setArtist(Artist artist) { this.artist = artist; }
+    public void setArtist(Artist artist) { this.artist = artist; }
 
-	public List<Playlist> getPlaylists() { return playlists; }
+    public List<Playlist> getPlaylists() { return playlists; }
 
-	public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
+    public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
 
-	@Override
-	public String toString() {
-		return "[Song #%d] %s by [Artist #%d] %s".formatted(
-			id, name, artist.getId(), artist.getName());
-	}
+    @Override
+    public String toString() {
+        return "[Song #%d] %s by [Artist #%d] %s".formatted(
+            id, name, artist.getId(), artist.getName());
+    }
 }
