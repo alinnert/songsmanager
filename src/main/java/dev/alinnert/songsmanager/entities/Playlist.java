@@ -43,22 +43,14 @@ public class Playlist implements Serializable
 
     public void setSongs(List<Song> songs) { this.songs = songs; }
 
-    @Override
-    public String toString() {
-        var songPluralized = songs.size() == 1 ? "song" : "songs";
-        return "[Playlist #%d] %s (containing %d %s)".formatted(
-            id, name,
-            songs.size(), songPluralized
-        );
-    }
-
     public String toStringWithSongs() {
         var songs = this.songs
             .stream()
             .map(song -> "- [Song #%d] %s\n".formatted(
                 song.getId(),
                 song.getName()
-            )).toList();
+            ))
+            .toList();
 
         var stringBuilder = new StringBuilder();
         stringBuilder.append("%s\n".formatted(toString()));
@@ -66,10 +58,17 @@ public class Playlist implements Serializable
         if (songs.isEmpty()) {
             stringBuilder.append("This playlist has no songs yet.");
         } else {
-            stringBuilder.append("Songs in this playlist:\n");
-            stringBuilder.append(String.join("", songs));
+            stringBuilder
+                .append("Songs in this playlist:\n")
+                .append(String.join("", songs));
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "[Playlist #%d] %s (containing %d %s)".formatted(
+            id, name, songs.size(), songs.size() == 1 ? "song" : "songs");
     }
 }

@@ -32,16 +32,14 @@ public class Artist implements Serializable
 
     public void setSongs(List<Song> songs) { this.songs = songs; }
 
-    @Override
-    public String toString() { return "[Artist #%d] %s".formatted(id, name); }
-
     public String toStringWithSongs() {
         var songs = this.songs
             .stream()
             .map(song -> "- [Song #%d] %s".formatted(
                 song.getId(),
                 song.getName()
-            )).toList();
+            ))
+            .toList();
 
         var stringBuilder = new StringBuilder();
         stringBuilder.append("%s\n".formatted(toString()));
@@ -56,4 +54,7 @@ public class Artist implements Serializable
 
         return stringBuilder.toString();
     }
+
+    @Override
+    public String toString() { return "[Artist #%d] %s".formatted(id, name); }
 }

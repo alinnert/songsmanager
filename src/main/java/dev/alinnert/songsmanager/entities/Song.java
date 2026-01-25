@@ -49,12 +49,6 @@ public class Song implements Serializable
 
     public void setPlaylists(List<Playlist> playlists) { this.playlists = playlists; }
 
-    @Override
-    public String toString() {
-        return "[Song #%d] %s by [Artist #%d] %s".formatted(
-            id, name, artist.getId(), artist.getName());
-    }
-
     public String toStringWithPlaylists() {
         var playlists = this.playlists
             .stream()
@@ -74,5 +68,11 @@ public class Song implements Serializable
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "[Song #%d] %s by [Artist #%d] %s".formatted(
+            id, name, artist.getId(), artist.getName());
     }
 }
