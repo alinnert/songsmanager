@@ -42,6 +42,11 @@ public class ArtistService
 	}
 
 	public void getArtist() {
-		IO.println("Not implemented yet!");
+		var artistId = Long.parseLong(IO.readln("Artist ID: "));
+		IO.println();
+
+		try (var em = persistenceService.getEntityManager()) {
+			IO.println(em.find(Artist.class, artistId).toStringWithSongs());
+		}
 	}
 }

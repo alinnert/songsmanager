@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Artist implements Serializable
@@ -33,7 +34,14 @@ public class Artist implements Serializable
 	public void setSongs(List<Song> songs) { this.songs = songs; }
 
 	@Override
-	public String toString() {
-		return "[%d] %s".formatted(id, name);
+	public String toString() { return "[%d] %s".formatted(id, name); }
+
+	public String toStringWithSongs() {
+		var songs = this.songs
+			.stream()
+			.map(song -> "- [%d] %s".formatted(song.getId(), song.getName()))
+			.collect(Collectors.joining("\n"));
+
+		return "[%d] %s\nSongs of this artist:\n%s".formatted(id, name, songs);
 	}
 }

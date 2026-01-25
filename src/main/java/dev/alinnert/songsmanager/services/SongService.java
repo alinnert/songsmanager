@@ -47,14 +47,18 @@ public class SongService
 
 	public void listSongs() {
 		try (var em = persistenceService.getEntityManager()) {
-			em
-				.createQuery("SELECT s FROM Song s", Song.class)
+			em.createQuery("SELECT s FROM Song s ORDER BY name", Song.class)
 				.getResultList()
 				.forEach(IO::println);
 		}
 	}
 
 	public void getSong() {
-		IO.println("Not implemented yet!");
+		var songId = Long.parseLong(IO.readln("Song ID: "));
+		IO.println();
+
+		try (var em = persistenceService.getEntityManager()) {
+			IO.println(em.find(Song.class, songId));
+		}
 	}
 }
