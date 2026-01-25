@@ -43,15 +43,6 @@ public class Playlist implements Serializable
 
     public void setSongs(List<Song> songs) { this.songs = songs; }
 
-    @Override
-    public String toString() {
-        var songPluralized = songs.size() == 1 ? "song" : "songs";
-        return "[Playlist #%d] %s (containing %d %s)".formatted(
-            id, name,
-            songs.size(), songPluralized
-        );
-    }
-
     public String toStringWithSongs() {
         var songs = this.songs
             .stream()
@@ -71,5 +62,14 @@ public class Playlist implements Serializable
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        var songPluralized = songs.size() == 1 ? "song" : "songs";
+        return "[Playlist #%d] %s (containing %d %s)".formatted(
+            id, name,
+            songs.size(), songPluralized
+        );
     }
 }
