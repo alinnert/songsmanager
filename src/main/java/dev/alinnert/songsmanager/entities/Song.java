@@ -51,7 +51,7 @@ public class Song implements Serializable
 
 	@Override
 	public String toString() {
-		return "[%d] %s by [%d] %s".formatted(
+		return "[Song #%d] %s by [Artist #%d] %s".formatted(
 			id, name, artist.getId(), artist.getName());
 	}
 }

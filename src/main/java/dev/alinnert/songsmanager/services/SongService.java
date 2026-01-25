@@ -21,6 +21,7 @@ public class SongService
 		try (var em = persistenceService.getEntityManager()) {
 			var artistRef = em.getReference(Artist.class, artistId);
 			var song = new Song(songName, artistRef);
+
 			em.getTransaction().begin();
 			em.persist(song);
 			em.getTransaction().commit();
@@ -47,9 +48,16 @@ public class SongService
 
 	public void listSongs() {
 		try (var em = persistenceService.getEntityManager()) {
-			em.createQuery("SELECT s FROM Song s ORDER BY name", Song.class)
-				.getResultList()
-				.forEach(IO::println);
+			var songs = em
+				.createQuery("SELECT s FROM Song s ORDER BY name", Song.class)
+				.getResultList();
+
+			if (songs.isEmpty()) {
+				IO.println("No songs found.");
+				return;
+			}
+
+			songs.forEach(IO::println);
 		}
 	}
 

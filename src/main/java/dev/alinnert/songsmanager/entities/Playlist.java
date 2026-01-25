@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Playlist implements Serializable
@@ -46,9 +47,22 @@ public class Playlist implements Serializable
 	@Override
 	public String toString() {
 		var songPluralized = songs.size() == 1 ? "song" : "songs";
-		return "[%d] %s (containing %d %s)".formatted(
-			id, name, songs.size(),
-			songPluralized
+		return "[Playlist #%d] %s (containing %d %s)".formatted(
+			id, name,
+			songs.size(), songPluralized
 		);
+	}
+
+	public String toStringWithSongs() {
+		var songs = this.songs
+			.stream()
+			.map(song -> "- [Song #%d] %s\n".formatted(
+				song.getId(),
+				song.getName()
+			))
+			.collect(Collectors.joining("\n"));
+
+		return "[Playlist #%d] %s\nSongs in this playlist:\n%s".formatted(
+			id, name, songs);
 	}
 }

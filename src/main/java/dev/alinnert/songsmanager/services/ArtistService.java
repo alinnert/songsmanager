@@ -34,10 +34,19 @@ public class ArtistService
 
 	public void listArtists() {
 		try (var em = persistenceService.getEntityManager()) {
-			em
-				.createQuery("SELECT a FROM Artist a", Artist.class)
-				.getResultList()
-				.forEach(IO::println);
+			var artists = em
+				.createQuery(
+					"SELECT a FROM Artist a ORDER BY name",
+					Artist.class
+				)
+				.getResultList();
+
+			if (artists.isEmpty()) {
+				IO.println("No artists found.");
+				return;
+			}
+
+			artists.forEach(IO::println);
 		}
 	}
 

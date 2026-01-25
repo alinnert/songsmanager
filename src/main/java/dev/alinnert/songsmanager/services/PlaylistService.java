@@ -1,5 +1,6 @@
 package dev.alinnert.songsmanager.services;
 
+import dev.alinnert.songsmanager.entities.Playlist;
 import dev.alinnert.songsmanager.persistence.PersistenceService;
 
 public class PlaylistService
@@ -11,19 +12,49 @@ public class PlaylistService
 	}
 
 	public void addPlaylist() {
-		IO.println("Not implemented yet!");
+		var playlistName = IO.readln("Playlist name: ");
+		var playlist = new Playlist(playlistName);
+
+		try (var em = persistenceService.getEntityManager()) {
+			em.getTransaction().begin();
+			em.persist(playlist);
+			em.getTransaction().commit();
+		}
 	}
 
 	public void removePlaylist() {
-		IO.println("Not implemented yet!");
+		var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
+
+		try (var em = persistenceService.getEntityManager()) {
+			em.getTransaction().begin();
+			em.remove(em.getReference(Playlist.class, playlistId));
+			em.getTransaction().commit();
+		}
 	}
 
 	public void listPlaylists() {
-		IO.println("Not implemented yet!");
+		try (var em = persistenceService.getEntityManager()) {
+			var playlists = em
+				.createQuery("SELECT p FROM Playlist p ORDER BY name",
+					Playlist.class
+				)
+				.getResultList();
+
+			if (playlists.isEmpty()) {
+				IO.println("No playlists found.");
+				return;
+			}
+
+			playlists.forEach(IO::println);
+		}
 	}
 
 	public void getPlaylist() {
-		IO.println("Not implemented yet!");
+		var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
+
+		try (var em = persistenceService.getEntityManager()) {
+			IO.println(em.find(Playlist.class, playlistId).toStringWithSongs());
+		}
 	}
 
 	public void addSongToPlaylist() {
