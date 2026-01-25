@@ -55,17 +55,18 @@ public class Playlist implements Serializable
         if (songs.isEmpty()) {
             stringBuilder.append("This playlist has no songs yet.");
         } else {
-            stringBuilder
-                .append("Songs in this playlist:\n")
-                .append(String.join("", songs));
+            if (songs.size() == 1) {
+                stringBuilder.append("1 song in this playlist:\n");
+            } else {
+                stringBuilder.append(
+                    "%d songs in this playlist:\n".formatted(songs.size()));
+            }
+            stringBuilder.append(String.join("\n", songs));
         }
 
         return stringBuilder.toString();
     }
 
     @Override
-    public String toString() {
-        return "[Playlist #%d] %s (containing %d %s)".formatted(
-            id, name, songs.size(), songs.size() == 1 ? "song" : "songs");
-    }
+    public String toString() { return "[Playlist #%d] %s".formatted(id, name); }
 }
