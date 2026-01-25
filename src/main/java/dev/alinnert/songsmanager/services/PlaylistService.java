@@ -1,6 +1,7 @@
 package dev.alinnert.songsmanager.services;
 
 import dev.alinnert.songsmanager.entities.Playlist;
+import dev.alinnert.songsmanager.entities.Song;
 import dev.alinnert.songsmanager.persistence.PersistenceService;
 
 public class PlaylistService
@@ -65,10 +66,34 @@ public class PlaylistService
     }
 
     public void addSongToPlaylist() {
-        IO.println("Not implemented yet!");
+        var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
+        var songId = Long.parseLong(IO.readln("Song ID: "));
+
+        try (var em = persistenceService.getEntityManager()) {
+            var playlist = em.getReference(Playlist.class, playlistId);
+            var song = em.getReference(Song.class, songId);
+            var songs = playlist.getSongs();
+            songs.add(song);
+            playlist.setSongs(songs);
+            em.getTransaction().begin();
+            em.merge(playlist);
+            em.getTransaction().commit();
+        }
     }
 
     public void removeSongFromPlaylist() {
-        IO.println("Not implemented yet!");
+        var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
+        var songId = Long.parseLong(IO.readln("Song ID: "));
+
+        try (var em = persistenceService.getEntityManager()) {
+            var playlist = em.getReference(Playlist.class, playlistId);
+            var song = em.getReference(Song.class, songId);
+            var songs = playlist.getSongs();
+            songs.remove(song);
+            playlist.setSongs(songs);
+            em.getTransaction().begin();
+            em.merge(playlist);
+            em.getTransaction().commit();
+        }
     }
 }
