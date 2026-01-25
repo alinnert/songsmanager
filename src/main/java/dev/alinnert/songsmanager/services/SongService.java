@@ -66,7 +66,12 @@ public class SongService
         IO.println();
 
         try (var em = persistenceService.getEntityManager()) {
-            IO.println(em.find(Song.class, songId));
+            var song = em.find(Song.class, songId);
+            if (song == null) {
+                IO.println("Song with ID %d not found.".formatted(songId));
+                return;
+            }
+            IO.println(song);
         }
     }
 }

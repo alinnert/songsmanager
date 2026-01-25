@@ -53,7 +53,15 @@ public class PlaylistService
         var playlistId = Long.parseLong(IO.readln("Playlist ID: "));
 
         try (var em = persistenceService.getEntityManager()) {
-            IO.println(em.find(Playlist.class, playlistId).toStringWithSongs());
+            var playlist = em
+                .find(Playlist.class, playlistId)
+                .toStringWithSongs();
+            if (playlist == null) {
+                IO.println(
+                    "Playlist with ID %d not found.".formatted(playlistId));
+                return;
+            }
+            IO.println(playlist);
         }
     }
 
