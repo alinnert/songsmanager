@@ -3,6 +3,8 @@ package dev.alinnert.songsmanager.services;
 import dev.alinnert.songsmanager.entities.Artist;
 import dev.alinnert.songsmanager.entities.Song;
 import dev.alinnert.songsmanager.persistence.PersistenceService;
+import jakarta.persistence.PersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 
 public class SongService
 {
@@ -13,32 +15,43 @@ public class SongService
 	}
 
 	public void addSong() {
-		IO.println("Song name: ");
-		var name = IO.readln();
-		IO.println("Artist ID: ");
-		var artistId = IO.readln();
+		var songName = IO.readln("Song name: ");
+		var artistId = Long.parseLong(IO.readln("Artist ID: "));
 
-		Artist artist = persistenceService
-			.getEntityManager()
-			.find(Artist.class, Long.parseLong(artistId));
-
-		var song = new Song(name, artist);
-		persistenceService.runWithTransaction(em -> em.persist(song));
+		try (var em = persistenceService.getEntityManager()) {
+			var artistRef = em.getReference(Artist.class, artistId);
+			var song = new Song(songName, artistRef);
+			em.getTransaction().begin();
+			em.persist(song);
+			em.getTransaction().commit();
+		} catch (PersistenceException e) {
+			if (e.getCause() instanceof ConstraintViolationException) {
+				IO.println(
+					"Artist with ID %s does not exist. Song was not added.".formatted(
+						artistId));
+				return;
+			}
+			IO.println("Failed to add song!");
+			throw e;
+		}
 	}
 
 	public void removeSong() {
-		IO.println("Song ID: ");
-		var id = IO.readln();
-		persistenceService.runWithTransaction(
-			em -> em.remove(em.getReference(Song.class, Long.parseLong(id))));
+		var songId = IO.readln("Song ID: ");
+		try (var em = persistenceService.getEntityManager()) {
+			em.getTransaction().begin();
+			em.remove(em.getReference(Song.class, Long.parseLong(songId)));
+			em.getTransaction().commit();
+		}
 	}
 
 	public void listSongs() {
-		persistenceService
-			.getEntityManager()
-			.createQuery("SELECT s FROM Song s", Song.class)
-			.getResultList()
-			.forEach(IO::println);
+		try (var em = persistenceService.getEntityManager()) {
+			em
+				.createQuery("SELECT s FROM Song s", Song.class)
+				.getResultList()
+				.forEach(IO::println);
+		}
 	}
 
 	public void getSong() {

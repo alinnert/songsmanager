@@ -1,9 +1,6 @@
 package dev.alinnert.songsmanager.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +12,8 @@ public class Artist implements Serializable
 	@GeneratedValue
 	private Long id;
 	private String name;
-	@OneToMany
+
+	@OneToMany(mappedBy = "artist", cascade = CascadeType.REMOVE)
 	private List<Song> songs;
 
 	public Artist() {}

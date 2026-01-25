@@ -11,10 +11,19 @@ public class Song implements Serializable
 	@Id
 	@GeneratedValue
 	private Long id;
+
 	private String name;
+
 	@ManyToOne
+	@JoinColumn(name = "artist_id", nullable = false)
 	private Artist artist;
+
 	@ManyToMany
+	@JoinTable(
+		name = "playlist_songs",
+		joinColumns = @JoinColumn(name = "song_id"),
+		inverseJoinColumns = @JoinColumn(name = "playlist_id")
+	)
 	private List<Playlist> playlists;
 
 	public Song() {}

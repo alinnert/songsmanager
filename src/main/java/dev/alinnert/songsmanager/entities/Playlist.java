@@ -1,9 +1,6 @@
 package dev.alinnert.songsmanager.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,8 +11,18 @@ public class Playlist implements Serializable
 	@Id
 	@GeneratedValue
 	private Long id;
+
 	private String name;
+
 	@ManyToMany
+	@JoinTable(
+		name = "playlist_songs",
+		joinColumns = @JoinColumn(name = "playlist_id"),
+		inverseJoinColumns = @JoinColumn(name = "song_id"),
+		uniqueConstraints = @UniqueConstraint(
+			columnNames = { "playlist_id", "song_id" }
+		)
+	)
 	private List<Song> songs;
 
 	public Playlist() {}

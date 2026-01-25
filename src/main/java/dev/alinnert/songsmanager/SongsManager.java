@@ -27,7 +27,7 @@ public class SongsManager
 			  rm pl         Remove playlist
 			  ls pl         List playlists
 			  get pl		Get playlist
-			
+			[ Playlist songs ]
 			  add s to pl   Add song to playlist
 			  rm s from pl  Remove song from playlist
 			[ App ]
@@ -35,9 +35,8 @@ public class SongsManager
 			""";
 
 		IO.println(msg);
-		IO.print("Your choice: ");
 
-		var choice = IO.readln();
+		var choice = IO.readln("Your choice: ").trim().toLowerCase();
 		if (choice.isBlank() || choice.equals("exit")) {
 			IO.println("Bye! 👋");
 			System.exit(0);

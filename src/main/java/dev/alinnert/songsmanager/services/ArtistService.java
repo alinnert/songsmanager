@@ -12,23 +12,33 @@ public class ArtistService
 	}
 
 	public void addArtist() {
-		IO.print("Artist name: ");
-		var name = IO.readln();
+		var name = IO.readln("Artist name: ");
 		var artist = new Artist(name);
-		persistenceService.runWithTransaction(em -> em.persist(artist));
+
+		try (var em = persistenceService.getEntityManager()) {
+			em.getTransaction().begin();
+			em.persist(artist);
+			em.getTransaction().commit();
+		}
 	}
 
 	public void removeArtist() {
-		IO.print("Artist ID: ");
-		var id = IO.readln();
-		persistenceService.runWithTransaction(
-			em -> em.remove(em.getReference(Artist.class, Long.parseLong(id))));
+		var id = Long.parseLong(IO.readln("Artist ID: "));
+
+		try (var em = persistenceService.getEntityManager()) {
+			em.getTransaction().begin();
+			em.remove(em.getReference(Artist.class, id));
+			em.getTransaction().commit();
+		}
 	}
 
 	public void listArtists() {
-		persistenceService.getEntityManager()
-			.createQuery("SELECT a FROM Artist a", Artist.class)
-			.getResultList().forEach(IO::println);
+		try (var em = persistenceService.getEntityManager()) {
+			em
+				.createQuery("SELECT a FROM Artist a", Artist.class)
+				.getResultList()
+				.forEach(IO::println);
+		}
 	}
 
 	public void getArtist() {
